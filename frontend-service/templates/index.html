@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Page metadata -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, 
+initial-scale=1.0">
+    <!-- Page title -->
+    <title>Board Game Rental System - Admin</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" 
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/styles.css">
+    <!-- jQuery JavaScript library -->
+    <script 
+src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Font Awesome icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="main-container">
+        <!-- Page header -->
+        <header>
+            <h1 class="text-center"><i class="fas fa-dice"></i> Board Game World Rental Management</h1>
+            <p class="text-center subtitle">Your one-stop board game experience management platform</p>
+        </header>
+
+        <!-- Main content area -->
+        <div class="content-area">
+            <div class="row">
+                <!-- Left side member management area -->
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4><i class="fas fa-users"></i> Add New Member</h4>
+                        </div>
+                        <div class="card-body">
+                            <!-- Member name input -->
+                            <input type="text" id="name" class="form-control mb-2" 
+placeholder="Member Name">
+                            <!-- Member email input -->
+                            <input type="email" id="email" class="form-control mb-2" 
+placeholder="Member Email">
+                            <!-- Add member button -->
+                            <button class="btn btn-primary" onclick="createUser()"><i class="fas fa-user-plus"></i> Add Member</button>
+                        </div>
+                    </div>
+
+                    <!-- Member list area -->
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4><i class="fas fa-address-book"></i> Member List</h4>
+                            <!-- Refresh member list button -->
+                            <button class="btn btn-refresh" onclick="getUsers()"><i class="fas fa-sync-alt"></i></button>
+                        </div>
+                        <div class="card-body">
+                            <!-- Member list container -->
+                            <ul id="userList" class="list-group"></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right side board game management area -->
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4><i class="fas fa-chess-board"></i> Add New Board Game</h4>
+                        </div>
+                        <div class="card-body">
+                            <!-- Game name input -->
+                            <input type="text" id="productName" class="form-control mb-2" 
+placeholder="Game Name">
+                            <!-- Rental price input -->
+                            <input type="number" id="productPrice" class="form-control mb-2" 
+placeholder="Daily Rental Fee ($)">
+                            <!-- Player count input -->
+                            <input type="text" id="players" class="form-control mb-2" 
+placeholder="Players (e.g.: 2-6 players)">
+                            <!-- Game duration input -->
+                            <input type="text" id="duration" class="form-control mb-2" 
+placeholder="Game Duration (e.g.: 30-60 minutes)">
+                            <!-- Game description input -->
+                            <textarea id="productDescription" class="form-control mb-2" 
+placeholder="Game Description and Rules"></textarea>
+                            <!-- Game image input -->
+                            <div class="mb-2">
+                                <label for="productImage" class="form-label text-muted">Game Image (Optional)</label>
+                                <input type="file" id="productImage" class="form-control" accept="image/*">
+                            </div>
+                            <!-- Add game button -->
+                            <button class="btn btn-primary" onclick="createProduct()"><i class="fas fa-plus-circle"></i> Add Game</button>
+                        </div>
+                    </div>
+
+                    <!-- Board game list area -->
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4><i class="fas fa-th-list"></i> Board Game List</h4>
+                            <!-- Refresh game list button -->
+                            <button class="btn btn-refresh" onclick="getProducts()"><i class="fas fa-sync-alt"></i></button>
+                        </div>
+                        <div class="card-body">
+                            <!-- Game list container -->
+                            <ul id="productList" class="list-group game-list"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="divider">
+            
+            <!-- Rental area -->
+            <div class="row">
+                <div class="col-md-6">
+                    <!-- Create rental record area -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4><i class="fas fa-clipboard-list"></i> Create Rental Record</h4>
+                        </div>
+                        <div class="card-body">
+                            <!-- Member ID input -->
+                            <input type="number" id="userId" class="form-control mb-2" 
+placeholder="Member ID">
+                            <!-- Game name input -->
+                            <input type="text" id="product" class="form-control mb-2" 
+placeholder="Game Name">
+                            <!-- Rental days input -->
+                            <input type="number" id="quantity" class="form-control mb-2" 
+placeholder="Rental Days">
+                            <!-- Create rental record button -->
+                            <button class="btn btn-success" onclick="createOrder()"><i class="fas fa-handshake"></i> Create Rental</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <!-- Rental record list area -->
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4><i class="fas fa-history"></i> Rental Records</h4>
+                            <!-- Refresh rental record list button -->
+                            <button class="btn btn-refresh" onclick="getOrders()"><i class="fas fa-sync-alt"></i></button>
+                        </div>
+                        <div class="card-body">
+                            <!-- Rental record list container -->
+                            <ul id="orderList" class="list-group rental-list"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer information -->
+        <footer class="text-center mt-4">
+            <p>© 2023 Board Game World Rental System | Making every game full of joy</p>
+        </footer>
+    </div>
+
+    <script>
+        /**
+         * Create member function
+         * Get member data from form and send to backend
+         */
+        function createUser() {
+            var name = $("#name").val();  // Get member name input value
+            var email = $("#email").val();  // Get email input value
+            
+            if(!name || !email) {
+                alert("Please enter both member name and email!");
+                return;
+            }
+            
+            $.ajax({
+                url: "/create_user",  // Backend URL
+                type: "POST",  // HTTP request method
+                contentType: "application/json",  // Content type
+                data: JSON.stringify({ name: name, email: email }),  // Convert data to JSON string
+                success: function(response) {  // Success callback function
+                    showToast("Member added successfully!");  // Show success message
+                    getUsers();  // Refresh member list
+                    // Clear input fields
+                    $("#name").val("");
+                    $("#email").val("");
+                }
+            });
+        }
+
+        /**
+         * Get member list function
+         * Get all members from backend and update page display
+         */
+        function getUsers() {
+            $.ajax({
+                url: "/get_users",  // Backend URL
+                type: "GET",  // HTTP request method
+                success: function(users) {  // Success callback function
+                    $("#userList").empty();  // Clear current member list
+                    
+                    if(users.length === 0) {
+                        $("#userList").append(`<li class="list-group-item text-center">No members found</li>`);
+                        return;
+                    }
+                    
+                    users.forEach(user => {  // Loop through member data
+                        $("#userList").append(`
+                            <li class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="badge bg-primary rounded-pill me-2">${user[0]}</span>
+                                        <span class="member-name">${user[1]}</span>
+                                    </div>
+                                    <small class="text-muted">${user[2]}</small>
+                                </div>
+                            </li>`);  // Add member item to list
+                    });
+                }
+            });
+        }
+        
+        /**
+         * Create board game function
+         * Get game data from form and send to backend
+         */
+        function createProduct() {
+            var name = $("#productName").val();  // Get game name input value
+            var price = $("#productPrice").val();  // Get rental price input value
+            var players = $("#players").val();  // Get player count
+            var duration = $("#duration").val();  // Get game duration
+            var description = $("#productDescription").val();  // Get game description input value
+            var imageInput = document.getElementById('productImage');
+            var imageBase64 = "";
+            
+            if(!name || !price) {
+                alert("Please enter both game name and rental price!");
+                return;
+            }
+            
+            var fullDescription = description;
+            if(players) {
+                fullDescription = "Players: " + players + "\n" + fullDescription;
+            }
+            if(duration) {
+                fullDescription = "Duration: " + duration + "\n" + fullDescription;
+            }
+            
+            // Check if image is selected
+            if(imageInput.files && imageInput.files[0]) {
+                // 添加图片压缩功能
+                compressImage(imageInput.files[0], function(compressedImageBase64) {
+                    // 使用压缩后的图片保存产品
+                    imageBase64 = compressedImageBase64;
+                    saveProduct(name, price, fullDescription, imageBase64);
+                });
+            } else {
+                // Save product without image
+                saveProduct(name, price, fullDescription, "");
+            }
+        }
+        
+        /**
+         * 压缩图片函数
+         * @param {File} file - 原始图片文件
+         * @param {Function} callback - 回调函数，接收压缩后的Base64数据
+         */
+        function compressImage(file, callback) {
+            const maxWidth = 800; // 最大宽度
+            const maxHeight = 600; // 最大高度
+            const quality = 0.7; // 图片质量，0-1之间
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    // 计算新的尺寸，保持宽高比
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    if (width > height) {
+                        if (width > maxWidth) {
+                            height = Math.round(height * maxWidth / width);
+                            width = maxWidth;
+                        }
+                    } else {
+                        if (height > maxHeight) {
+                            width = Math.round(width * maxHeight / height);
+                            height = maxHeight;
+                        }
+                    }
+                    
+                    // 创建canvas进行压缩
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    
+                    // 绘制图片到canvas
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    // 转换为Base64，进行压缩
+                    const compressedBase64 = canvas.toDataURL('image/jpeg', quality);
+                    
+                    // 通过回调返回压缩后的图片
+                    callback(compressedBase64);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        /**
+         * Save product to backend
+         */
+        function saveProduct(name, price, description, imageBase64) {
+            $.ajax({
+                url: "/create_product",  // Backend URL
+                type: "POST",  // HTTP request method
+                contentType: "application/json",  // Content type
+                data: JSON.stringify({ 
+                    name: name, 
+                    price: parseFloat(price), 
+                    description: description,
+                    image: imageBase64
+                }),  // Convert data to JSON string
+                success: function(response) {  // Success callback function
+                    showToast("Board game added successfully!");  // Show success message
+                    getProducts();  // Refresh game list
+                    // Clear input fields
+                    $("#productName").val("");
+                    $("#productPrice").val("");
+                    $("#players").val("");
+                    $("#duration").val("");
+                    $("#productDescription").val("");
+                    $("#productImage").val("");
+                }
+            });
+        }
+
+        /**
+         * Get board game list function
+         * Get all games from backend and update page display
+         */
+        function getProducts() {
+            $.ajax({
+                url: "/get_products",  // Backend URL
+                type: "GET",  // HTTP request method
+                success: function(products) {  // Success callback function
+                    $("#productList").empty();  // Clear current game list
+                    
+                    if(products.length === 0) {
+                        $("#productList").append(`<li class="list-group-item text-center">No board games found</li>`);
+                        return;
+                    }
+                    
+                    products.forEach(product => {  // Loop through game data
+                        let description = '';
+                        let imageHtml = '';
+                        let productObj = product;
+                        
+                        // Handle array format if needed
+                        if (Array.isArray(product)) {
+                            productObj = {
+                                id: product[0] || 0,
+                                name: product[1] || '',
+                                price: parseFloat(product[2]) || 0,
+                                description: product[3] || ''
+                            };
+                        }
+                        
+                        if(productObj.description) {
+                            let lines = productObj.description.split('\n').filter(line => line.trim() !== '');
+                            description = '<div class="game-details mt-2">';
+                            lines.forEach(line => {
+                                // Check if the line contains an image (base64)
+                                if(line.startsWith('data:image')) {
+                                    imageHtml = `<img src="${line}" class="img-thumbnail mt-2" style="max-height: 150px;">`;
+                                } else {
+                                    description += `<p class="mb-1">${line}</p>`;
+                                }
+                            });
+                            description += '</div>';
+                        }
+                        
+                        $("#productList").append(`
+                            <li class="list-group-item" data-id="${productObj.id}">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="game-title mb-0"><i class="fas fa-dice-d20 me-2"></i>${productObj.name}</h5>
+                                    <div>
+                                        <span class="badge bg-success">$${productObj.price}/day</span>
+                                        <button class="btn btn-sm btn-outline-primary ms-2 edit-game-btn" data-id="${productObj.id}">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger ms-1 delete-game-btn" data-id="${productObj.id}">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                ${description}
+                                ${imageHtml}
+                            </li>`);  // Add game item to list
+                    });
+                    
+                    // Add event listeners for edit and delete buttons
+                    $('.edit-game-btn').click(function(e) {
+                        e.stopPropagation();
+                        const gameId = $(this).data('id');
+                        openEditGameModal(gameId);
+                    });
+                    
+                    $('.delete-game-btn').click(function(e) {
+                        e.stopPropagation();
+                        const gameId = $(this).data('id');
+                        if(confirm('Are you sure you want to delete this game?')) {
+                            deleteGame(gameId);
+                        }
+                    });
+                }
+            });
+        }
+        
+        /**
+         * Open edit game modal
+         */
+        function openEditGameModal(gameId) {
+            const gameItem = $(`#productList li[data-id="${gameId}"]`);
+            const gameName = gameItem.find('.game-title').text().trim();
+            const gamePrice = gameItem.find('.badge').text().replace('$', '').replace('/day', '');
+            let gameDescription = '';
+            let playersInfo = '';
+            let durationInfo = '';
+            let imageBase64 = '';
+            
+            // Extract description, players, and duration from game details
+            const descriptionEls = gameItem.find('.game-details p');
+            if(descriptionEls.length > 0) {
+                descriptionEls.each(function(index) {
+                    const text = $(this).text().trim();
+                    if(text.startsWith('Players:')) {
+                        playersInfo = text.replace('Players:', '').trim();
+                    } else if(text.startsWith('Duration:')) {
+                        durationInfo = text.replace('Duration:', '').trim();
+                    } else {
+                        gameDescription += text + '\n';
+                    }
+                });
+            }
+            
+            // Extract image if any
+            const imageEl = gameItem.find('img');
+            if(imageEl.length > 0) {
+                imageBase64 = imageEl.attr('src');
+            }
+            
+            // Fill the edit modal with game data
+            $('#editGameId').val(gameId);
+            $('#editProductName').val(gameName);
+            $('#editProductPrice').val(gamePrice);
+            $('#editPlayers').val(playersInfo);
+            $('#editDuration').val(durationInfo);
+            $('#editProductDescription').val(gameDescription.trim());
+            $('#currentImage').html(imageBase64 ? `<img src="${imageBase64}" class="img-thumbnail" style="max-height: 100px;">` : 'No image');
+            $('#editImageBase64').val(imageBase64);
+            
+            // Show the modal
+            $('#editGameModal').modal('show');
+        }
+        
+        /**
+         * Update board game function
+         */
+        function updateGame() {
+            const gameId = $('#editGameId').val();
+            const name = $('#editProductName').val();
+            const price = $('#editProductPrice').val();
+            const players = $('#editPlayers').val();
+            const duration = $('#editDuration').val();
+            const description = $('#editProductDescription').val();
+            let imageBase64 = $('#editImageBase64').val();
+            
+            if(!name || !price) {
+                alert("Please enter both game name and rental price!");
+                return;
+            }
+            
+            // Check if new image is selected
+            const imageInput = document.getElementById('editProductImage');
+            if(imageInput.files && imageInput.files[0]) {
+                // 使用压缩功能处理图片
+                compressImage(imageInput.files[0], function(compressedImageBase64) {
+                    imageBase64 = compressedImageBase64;
+                    saveUpdatedGame(gameId, name, price, players, duration, description, imageBase64);
+                });
+            } else {
+                saveUpdatedGame(gameId, name, price, players, duration, description, imageBase64);
+            }
+        }
+        
+        /**
+         * Save updated game to backend
+         */
+        function saveUpdatedGame(gameId, name, price, players, duration, description, imageBase64) {
+            // Build description with players, duration, and image
+            let fullDescription = description;
+            if(players) {
+                fullDescription = "Players: " + players + "\n" + fullDescription;
+            }
+            if(duration) {
+                fullDescription = "Duration: " + duration + "\n" + fullDescription;
+            }
+            if(imageBase64) {
+                fullDescription += "\n" + imageBase64;
+            }
+            
+            $.ajax({
+                url: "/update_product",
+                type: "PUT",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    id: parseInt(gameId),
+                    name: name,
+                    price: parseFloat(price),
+                    description: fullDescription
+                }),
+                success: function(response) {
+                    showToast("Board game updated successfully!");
+                    $('#editGameModal').modal('hide');
+                    getProducts();
+                },
+                error: function(error) {
+                    alert("Failed to update board game. Please try again.");
+                    console.error("Error updating game:", error);
+                }
+            });
+        }
+        
+        /**
+         * Delete board game function
+         */
+        function deleteGame(gameId) {
+            $.ajax({
+                url: "/delete_product",
+                type: "DELETE",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    id: parseInt(gameId)
+                }),
+                success: function(response) {
+                    showToast("Board game deleted successfully!");
+                    getProducts();
+                },
+                error: function(error) {
+                    alert("Failed to delete board game. Please try again.");
+                    console.error("Error deleting game:", error);
+                }
+            });
+        }
+
+        /**
+         * Create rental record function
+         * Get rental data from form and send to backend
+         */
+        function createOrder() {
+            var userId = $("#userId").val();  // Get member ID input value
+            var product = $("#product").val();  // Get game name input value
+            var quantity = $("#quantity").val();  // Get rental days input value
+            
+            if(!userId || !product || !quantity) {
+                alert("Please fill in all rental information!");
+                return;
+            }
+            
+            $.ajax({
+                url: "/create_order",  // Backend URL
+                type: "POST",  // HTTP request method
+                contentType: "application/json",  // Content type
+                data: JSON.stringify({ 
+                    user_id: parseInt(userId), 
+                    product: product, 
+                    quantity: parseInt(quantity) 
+                }),  // Convert data to JSON string
+                success: function(response) {  // Success callback function
+                    showToast("Rental record created successfully!");  // Show success message
+                    getOrders();  // Refresh rental record list
+                    // Clear input fields
+                    $("#userId").val("");
+                    $("#product").val("");
+                    $("#quantity").val("");
+                }
+            });
+        }
+        
+        /**
+         * Get rental record list function
+         * Get all rental records from backend and update page display
+         */
+        function getOrders() {
+            $.ajax({
+                url: "/get_orders",  // Backend URL
+                type: "GET",  // HTTP request method
+                success: function(orders) {  // Success callback function
+                    console.log("Rental data:", orders); // Debug: Print rental data to console
+                    
+                    $("#orderList").empty();  // Clear current rental record list
+                    
+                    if(!orders || orders.length === 0) {
+                        $("#orderList").append(`<li class="list-group-item text-center">No rental records found</li>`);
+                        return;
+                    }
+                    
+                    // Rental data is a 2D array: [[Record ID, Member ID, Game Name, Rental Days], ...]
+                    orders.forEach(order => {  // Loop through rental data
+                        if (Array.isArray(order) && order.length >= 4) {
+                            // Access data using array indices
+                            let orderId = order[0];
+                            let userId = order[1];
+                            let product = order[2];
+                            let quantity = order[3];
+                            
+                            $("#orderList").append(`
+                                <li class="list-group-item">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <span class="badge bg-info me-2">No.${orderId}</span>
+                                            <span class="game-name">${product}</span>
+                                        </div>
+                                        <div>
+                                            <span class="badge bg-secondary me-2">Member ID: ${userId}</span>
+                                            <span class="badge bg-warning text-dark">${quantity} days</span>
+                                        </div>
+                                    </div>
+                                </li>`);
+                        } else {
+                            // Fallback, display raw data
+                            $("#orderList").append(`<li class="list-group-item">
+                                ${JSON.stringify(order)}
+                            </li>`);
+                        }
+                    });
+                },
+                error: function(error) {
+                    console.error("Failed to get rental records:", error);
+                    $("#orderList").empty();
+                    $("#orderList").append(`<li class="list-group-item text-center text-danger">Failed to retrieve rental records. Please check console for error details.</li>`);
+                }
+            });
+        }
+        
+        /**
+         * Show toast notification
+         */
+        function showToast(message) {
+            // Create toast element
+            const toastId = 'toast-' + Date.now();
+            const toast = `
+                <div id="${toastId}" class="toast-container position-fixed top-0 end-0 p-3">
+                    <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-header">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong class="me-auto">Success</strong>
+                            <small>Just now</small>
+                            <button type="button" class="btn-close" onclick="$('#${toastId}').remove()"></button>
+                        </div>
+                        <div class="toast-body">
+                            ${message}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Add to page
+            $('body').append(toast);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                $(`#${toastId}`).remove();
+            }, 3000);
+        }
+
+        /**
+         * Function executed after page load
+         * Initialize page data
+         */
+        $(document).ready(function() {
+            getUsers();  // Get member list
+            getProducts();  // Get game list
+            getOrders();  // Get rental record list
+        });
+    </script>
+    
+    <!-- Edit Game Modal -->
+    <div class="modal fade" id="editGameModal" tabindex="-1" aria-labelledby="editGameModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editGameModalLabel">Edit Board Game</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="editGameId">
+                    <input type="hidden" id="editImageBase64">
+                    
+                    <div class="mb-3">
+                        <label for="editProductName" class="form-label">Game Name</label>
+                        <input type="text" id="editProductName" class="form-control">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="editProductPrice" class="form-label">Daily Rental Fee ($)</label>
+                        <input type="number" id="editProductPrice" class="form-control">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="editPlayers" class="form-label">Players</label>
+                        <input type="text" id="editPlayers" class="form-control" placeholder="e.g.: 2-6 players">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="editDuration" class="form-label">Game Duration</label>
+                        <input type="text" id="editDuration" class="form-control" placeholder="e.g.: 30-60 minutes">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="editProductDescription" class="form-label">Game Description</label>
+                        <textarea id="editProductDescription" class="form-control" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Current Image</label>
+                        <div id="currentImage" class="border p-2 rounded"></div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="editProductImage" class="form-label">New Image (Optional)</label>
+                        <input type="file" id="editProductImage" class="form-control" accept="image/*">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="updateGame()">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

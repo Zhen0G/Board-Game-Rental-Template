@@ -1,0 +1,5 @@
+# Flask: Python Web框架，用于构建Web应用
+Flask
+
+# Requests: HTTP库，用于发送HTTP请求到其他微服务
+Requests

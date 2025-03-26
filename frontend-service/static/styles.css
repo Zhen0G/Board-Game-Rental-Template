@@ -1,0 +1,300 @@
+/* 全局样式设置 */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+/* 主容器样式 */
+.main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 页面标题样式 */
+header {
+    text-align: center;
+    padding: 30px 0;
+    margin-bottom: 30px;
+    background-color: #2c3e50;
+    color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 5px;
+}
+
+header .subtitle {
+    font-size: 1.1rem;
+    opacity: 0.8;
+    margin: 0;
+}
+
+/* 内容区域样式 */
+.content-area {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* 卡片样式 */
+.card {
+    margin-bottom: 25px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #eaeaea;
+    padding: 15px 20px;
+}
+
+.card-header h4 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* 输入框样式 */
+.form-control {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    transition: all 0.3s;
+}
+
+.form-control:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+}
+
+textarea.form-control {
+    min-height: 100px;
+}
+
+/* 按钮基础样式 */
+.btn {
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: all 0.3s;
+    text-transform: none;
+}
+
+/* 主要按钮样式 */
+.btn-primary {
+    background-color: #3498db;
+    border-color: #3498db;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: #2980b9;
+    border-color: #2980b9;
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.5);
+}
+
+/* 成功按钮样式 */
+.btn-success {
+    background-color: #2ecc71;
+    border-color: #2ecc71;
+}
+
+.btn-success:hover, .btn-success:focus {
+    background-color: #27ae60;
+    border-color: #27ae60;
+    box-shadow: 0 0 0 0.2rem rgba(46, 204, 113, 0.5);
+}
+
+/* 刷新按钮样式 */
+.btn-refresh {
+    background-color: transparent;
+    color: #6c757d;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 50%;
+    font-size: 1rem;
+}
+
+.btn-refresh:hover {
+    background-color: #f8f9fa;
+    color: #3498db;
+}
+
+/* 列表组样式 */
+.list-group {
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.list-group-item {
+    border-left: none;
+    border-right: none;
+    padding: 15px;
+    transition: background-color 0.2s;
+}
+
+.list-group-item:hover {
+    background-color: #f8f9fa;
+}
+
+/* 会员列表样式 */
+.member-name {
+    font-weight: 500;
+}
+
+/* 桌游列表样式 */
+.game-list .list-group-item {
+    padding: 15px;
+}
+
+.game-title {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.game-details {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.game-details p {
+    margin-bottom: 5px;
+}
+
+/* 租赁记录列表样式 */
+.rental-list .list-group-item {
+    padding: 15px;
+}
+
+.game-name {
+    font-weight: 500;
+    color: #3498db;
+}
+
+/* 分隔线样式 */
+.divider {
+    margin: 40px 0;
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
+}
+
+/* 页脚样式 */
+footer {
+    margin-top: 30px;
+    padding: 20px 0;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+/* 提示框样式 */
+.toast-container {
+    z-index: 9999;
+}
+
+.toast {
+    background-color: #fff;
+    border: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.toast-header {
+    background-color: #fff;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .main-container {
+        padding: 10px;
+    }
+    
+    header {
+        padding: 20px 0;
+    }
+    
+    header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .content-area {
+        padding: 15px;
+    }
+    
+    .card-header {
+        padding: 12px 15px;
+    }
+    
+    .card-body {
+        padding: 15px;
+    }
+    
+    .btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* 悬浮卡片效果 */
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+/* 桌游主题元素 */
+.fa-dice, .fa-dice-d20 {
+    color: #e74c3c;
+}
+
+.fa-chess-board {
+    color: #3498db;
+}
+
+.fa-users, .fa-address-book {
+    color: #27ae60;
+}
+
+.fa-clipboard-list, .fa-history {
+    color: #f39c12;
+}
+
+/* 徽章样式优化 */
+.badge {
+    font-weight: 500;
+    padding: 5px 10px;
+    border-radius: 5px;
+} 
